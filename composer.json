@@ -1,5 +1,5 @@
 {
-	"name": "fluxoft/rebar-presenters-smarty",
+	"name": "fluxoft/rebar-db",
 	"description": "Optional Db module for Rebar.",
 	"type": "library",
 	"keywords": ["framework", "mvc", "rebar"],
