@@ -36,8 +36,8 @@ class Mapper {
 		$idProperty = $this->model->GetIDProperty();
 		$properties = $this->model->GetProperties();
 		$sql        = "SELECT * FROM {$this->model->GetDbTable()} WHERE {$properties[$idProperty]['col']} = :id";
-		$values     = array('id' => $id);
-		$types      = array($properties[$idProperty]['type']);
+		$values     = ['id' => $id];
+		$types      = [$properties[$idProperty]['type']];
 		$results    = $this->reader->fetchAll(
 			$sql,
 			$values,
@@ -50,15 +50,15 @@ class Mapper {
 		}
 	}
 
-	public function GetOneWhere($where, $params = array()) {
+	public function GetOneWhere($where, $params = []) {
 		$properties = $this->model->GetProperties();
 		$sql        = "SELECT * FROM {$this->model->GetDbTable()}";
 		if (!empty($where)) {
 			$sql .= ' WHERE ' . $this->translateWhere($where, $properties);
 		}
 		$sql   .= ' LIMIT 1';
-		$values = array();
-		$types  = array();
+		$values = [];
+		$types  = [];
 		foreach ($params as $key => $value) {
 			if (is_array($value)) {
 				$values[$key] = $value['value'];
@@ -81,7 +81,7 @@ class Mapper {
 		}
 	}
 
-	public function GetSetWhere($where = '', $params = array(), $page = 1, $pageSize = 0) {
+	public function GetSetWhere($where = '', $params = [], $page = 1, $pageSize = 0) {
 		$properties = $this->model->GetProperties();
 		$sql        = "SELECT * FROM {$this->model->GetDbTable()}";
 		if (!empty($where)) {
@@ -90,8 +90,8 @@ class Mapper {
 		if ($pageSize > 0) {
 			$sql .= " LIMIT $pageSize OFFSET " . ($pageSize * ($page - 1));
 		}
-		$values = array();
-		$types  = array();
+		$values = [];
+		$types  = [];
 		foreach ($params as $key => $value) {
 			if (is_array($value)) {
 				$values[$key] = $value['value'];
@@ -102,7 +102,7 @@ class Mapper {
 				$values[$key] = $value;
 			}
 		}
-		$set     = array();
+		$set     = [];
 		$results = $this->reader->fetchAll(
 			$sql,
 			$values,
@@ -127,7 +127,7 @@ class Mapper {
 	public function Delete(Model $model) {
 		$idColumn = $model->GetIDColumn();
 		$sql = "DELETE FROM {$model->GetDbTable()} WHERE $idColumn = :$idColumn";
-		$this->writer->executeQuery($sql, array('id' => $model->GetID()), array($model->GetIDType()));
+		$this->writer->executeQuery($sql, ['id' => $model->GetID()], [$model->GetIDType()]);
 		$model = null;
 	}
 
@@ -151,9 +151,9 @@ class Mapper {
 		$idProperty = $model->GetIDProperty();
 		// merged array containing original plus modified properties
 		$merged = array_replace_recursive($model->GetProperties(), $model->GetModifiedProperties());
-		$cols   = array();
-		$types  = array();
-		$values = array();
+		$cols   = [];
+		$types  = [];
+		$values = [];
 		foreach ($merged as $property => $dbMap) {
 			if ($property !== $idProperty) {
 				$cols[]  = $dbMap['col'];
@@ -173,9 +173,9 @@ class Mapper {
 		$properties = $model->GetProperties();
 		$modified   = $model->GetModifiedProperties();
 		if (!empty($modified)) {
-			$cols   = array();
-			$types  = array();
-			$values = array();
+			$cols   = [];
+			$types  = [];
+			$values = [];
 			foreach ($modified as $property => $dbMap) {
 				$cols[]                = $dbMap['col'];
 				$types[]               = $dbMap['type'];

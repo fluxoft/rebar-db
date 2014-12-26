@@ -7,7 +7,7 @@ namespace Fluxoft\Rebar\Db;
  * @package Fluxoft\Rebar\Db
  */
 abstract class Model implements \Iterator {
-	protected $modProperties = array();
+	protected $modProperties = [];
 	/**
 	 * $propertyDbMap = [
 	 *   '{Property Name}' => [
@@ -25,11 +25,11 @@ abstract class Model implements \Iterator {
 	 * The second form will set a default of PDO::PARAM_STR for type and null for value.
 	 * @var array
 	 */
-	protected $propertyDbMap = array();
+	protected $propertyDbMap = [];
 	protected $dbTable       = '';
 	protected $idProperty    = 'ID';
 
-	public function __construct(array $dataRow = array()) {
+	public function __construct(array $dataRow = []) {
 		if (empty($this->propertyDbMap)) {
 			throw new \Exception(sprintf('You must specify the db column relationships in propertyDbMap'));
 		}
@@ -38,7 +38,7 @@ abstract class Model implements \Iterator {
 		}
 		foreach ($this->propertyDbMap as $property => &$dbMap) {
 			if (!is_array($dbMap)) {
-				$dbMap = array('col' => $dbMap, 'type' => \PDO::PARAM_STR, 'value' => null);
+				$dbMap = ['col' => $dbMap, 'type' => \PDO::PARAM_STR, 'value' => null];
 			}
 		}
 
