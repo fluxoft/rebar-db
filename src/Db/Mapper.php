@@ -3,6 +3,7 @@
 namespace Fluxoft\Rebar\Db;
 
 use Doctrine\DBAL\Connection;
+use Fluxoft\Rebar\Db\Exceptions\MapperException;
 
 class Mapper {
 	/** @var string $modelClass */
@@ -20,7 +21,7 @@ class Mapper {
 
 		$this->modelClass = $modelClass;
 		if (!class_exists($modelClass)) {
-			throw new \Exception(sprintf('The model %s could not be found.', $modelClass));
+			throw new MapperException(sprintf('The model %s could not be found.', $modelClass));
 		}
 		$this->model = new $modelClass();
 	}
